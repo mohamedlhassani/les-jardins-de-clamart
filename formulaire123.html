@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LES JARDINS DE CLAMART - Formulaire de prise de commande en ligne</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('https://images.pexels.com/photos/1061585/pexels-photo-1061585.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <header class="bg-blue-500 text-white p-4 text-center">
+        <h1 class="text-3xl font-bold">LES JARDINS DE CLAMART</h1>
+        <p class="text-xl">Savourez la fraîcheur à votre porte ! Commandez vos fruits et légumes en ligne dès maintenant !</p>
+    </header>
+    <main class="p-4 max-w-2xl mx-auto mt-10 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Formulaire de prise de commande en ligne</h2>
+        <form class="flex flex-col" action="https://formspree.io/f/mwppwvgw" method="POST">
+            <input type="hidden" name="_subject" value="Nouvelle commande">
+            <input type="hidden" name="_replyto" value="client@example.com">
+
+            <label class="mb-2" for="nom">Nom</label>
+            <input class="p-2 border border-gray-400 rounded mb-4" type="text" id="nom" name="nom" required>
+
+            <label class="mb-2" for="prenom">Prénom</label>
+            <input class="p-2 border border-gray-400 rounded mb-4" type="text" id="prenom" name="prenom" required>
+
+            <label class="mb-2" for="adresse">Adresse</label>
+            <input class="p-2 border border-gray-400 rounded mb-4" type="text" id="adresse" name="adresse" required>
+
+            <label class="mb-2" for="telephone">Téléphone</label>
+            <input class="p-2 border border-gray-400 rounded mb-4" type="tel" id="telephone" name="telephone" required>
+
+            <label class="mb-2" for="commande">Commande</label>
+            <textarea class="p-2 border border-gray-400 rounded mb-4" id="commande" name="commande" required></textarea>
+
+            <label class="mb-2" for="livraison">Mode de livraison</label>
+            <div class="flex flex-col mb-4">
+                <div class="flex mb-2">
+                    <input class="mr-2" type="radio" id="retrait" name="livraison" value="retrait">
+                    <label for="retrait">Retrait en magasin</label>
+                </div>
+                <div class="flex mb-2">
+                    <input class="mr-2" type="radio" id="livraison-domicile" name="livraison" value="livraison-domicile">
+                    <label for="livraison-domicile">Livraison à domicile (4,99€ - gratuite à partir de 50€)</label>
+                </div>
+                <div id="creneaux" class="hidden">
+                    <label class="mb-2" for="creneau">Créneaux de livraison</label>
+                    <div class="flex flex-col mb-4">
+                        <div class="flex mb-2">
+                            <input class="mr-2" type="radio" id="midi" name="creneau" value="midi">
+                            <label for="midi">MIDI (12h - 14h)</label>
+                        </div>
+                        <div class="flex mb-2">
+                            <input class="mr-2" type="radio" id="soir" name="creneau" value="soir">
+                            <label for="soir">SOIR (18h - 20h)</label>
+                        </div>
+                    </div>
+                </div>
+                <div id="code-retrait" class="hidden mb-4">
+                    <label class="mb-2" for="code-retrait-input">Code de retrait</label>
+                    <input class="p-2 border border-gray-400 rounded" type="text" id="code-retrait-input" name="code-retrait" readonly>
+                    <button class="bg-blue-500 text-white p-2 rounded" type="button" id="generate-code">Générer un code</button>
+                </div>
+            </div>
+
+            <button class="bg-blue-500 text-white p-2 rounded" type="submit">Valider ma commande</button>
+        </form>
+    </main>
+    <footer class="bg-blue-500 text-white p-4 text-center mt-10">
+        <p>&copy; 2024 LES JARDINS DE CLAMART - Frais et délicieux</p>
+        <p>TEL. 0146421906</p>
+        <p>Nous vous accueillons du LUNDI au Vendredi de 8h à 13h et de 15h à 20h</p>
+        <p>Samedi de 8h à 20h</p>
+        <p>Dimanche de 8h à 13h</p>
+    </footer>
+
+    <script>
+        const livraisonDomicile = document.getElementById('livraison-domicile');
+        const creneaux = document.getElementById('creneaux');
+        const retrait = document.getElementById('retrait');
+        const codeRetrait = document.getElementById('code-retrait');
+        const generateCodeButton = document.getElementById('generate-code');
+        const codeRetraitInput = document.getElementById('code-retrait-input');
+
+        livraisonDomicile.addEventListener('change', () => {
+            if (livraisonDomicile.checked) {
+                creneaux.classList.remove('hidden');
+                codeRetrait.classList.add('hidden');
+            } else {
+                creneaux.classList.add('hidden');
+            }
+        });
+
+        retrait.addEventListener('change', () => {
+            if (retrait.checked) {
+                creneaux.classList.add('hidden');
+                codeRetrait.classList.remove('hidden');
+            } else {
+                codeRetrait.classList.add('hidden');
+            }
+        });
+
+        generateCodeButton.addEventListener('click', () => {
+            const code = Math.random().toString(36).substr(2, 6).toUpperCase();
+            codeRetraitInput.value = code;
+        });
+    </script>
+</body>
+</html>
+
